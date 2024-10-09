@@ -51,7 +51,7 @@
               "id": "dateOfEnrollment",
               "questionOptions": {
                 "rendering": "date",
-                "concept": "e27f8561-e242-4744-9193-b84d752dd86d",
+                "concept": "73779d67-7e8f-46fe-b723-8879838da5f8",
                 "conceptMappings": [],
                 "answers": []
               },
@@ -677,15 +677,11 @@
                 "conceptMappings": [],
                 "answers": []
               },
-              "alert": {
-                "alertWhenExpression": "myValue && (myValue >= 37.5 || myValue < 35)",
-                "message": "Temperature is out of range (Normal range 35-37)"
-              },
               "validators": [
                 {
                   "type": "js_expression",
-                  "failsWhenExpression": "temperature < 0",
-                  "message": "Temperature should not be less than 0"
+                  "failsWhenExpression": "temperature < 32 || temperature > 40",
+                  "message": "Temperature should not be less than 32 or more than 40"
                 }
               ],
               "hide": {
