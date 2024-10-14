@@ -8,6 +8,42 @@
       "label": "Personal history",
       "sections": [
         {
+          "label": "Visit Details",
+          "isExpanded": "true",
+          "questions": [
+            {
+              "label": "Date",
+              "type": "encounterDatetime",
+              "questionOptions": {
+                "rendering": "ui-select-extended"
+              },
+              "id": "encDate",
+              "validators": [
+                {
+                  "type": "date",
+                  "allowFutureDates": "false"
+                }
+              ]
+            },
+            {
+              "label": "Provider",
+              "type": "encounterProvider",
+              "questionOptions": {
+                "rendering": "ui-select-extended"
+              },
+              "id": "encProvider "
+            },
+            {
+              "label": "Location",
+              "type": "encounterLocation",
+              "questionOptions": {
+                "rendering": "ui-select-extended"
+              },
+              "id": "encLocation"
+            }
+          ]
+        },
+        {
           "label": "Personal history",
           "isExpanded": "true",
           "questions": [
@@ -36,7 +72,7 @@
             {
               "label": "Level of Education",
               "type": "obs",
-              "required": true,
+              "required": false,
               "id": "levelOfEducation",
               "questionOptions": {
                 "rendering": "select",
@@ -232,7 +268,7 @@
             {
               "label": "Other Occupation",
               "type": "obs",
-              "required": true,
+              "required": false,
               "id": "otherSpecifyOccupation",
               "questionOptions": {
                 "rendering": "text",
@@ -275,8 +311,8 @@
                     "answers": [],
                     "concept": "db25b3c5-10da-49a9-9137-cc8a2507585a",
                     "rendering": "number",
-                    "min": 0,
-                    "max": 120
+                    "min": "0",
+                    "max": "120"
                   },
                   "type": "obs",
                   "validators": [
@@ -335,7 +371,7 @@
                 {
                   "label": "On ART",
                   "id": "familyMemberOnART",
-                  "required": true,
+                  "required": false,
                   "questionOptions": {
                     "concept": "48741238-7ad4-42f0-a1f4-d2bb6b355614",
                     "rendering": "radio",
@@ -580,7 +616,7 @@
                 {
                   "label": "Date HIV Tested",
                   "type": "obs",
-                  "required": true,
+                  "required": false,
                   "id": "dateHivTested",
                   "questionOptions": {
                     "rendering": "date",
@@ -651,7 +687,8 @@
                 {
                   "label": "On ART",
                   "id": "indexFamilyMemberOnART",
-                  "required": true,
+                  "type": "obs",
+                  "required": false,
                   "questionOptions": {
                     "concept": "48741238-7ad4-42f0-a1f4-d2bb6b355614",
                     "rendering": "radio",
@@ -667,22 +704,21 @@
                     ]
                   },
                   "hide": {
-                    "hideWhenExpression": "!(indexFamilyMemberHIVStatus === '7acfafa4-f19b-485e-97a7-c9e002dbe37a' || resultsOfHts === '4e863543-07ed-4e81-9452-9e309007e713')"
+                    "hideWhenExpression": "indexFamilyMemberHIVStatus !== '703AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' || resultsOfHts === '4e863543-07ed-4e81-9452-9e309007e713'"
                   }
                 },
                 {
                   "label": "Unique ART No/HEI No",
                   "type": "obs",
                   "required": false,
-                  "id": "artOrHeiNo",
+                  "id": "indexFamilyMemberARTNo",
                   "questionOptions": {
                     "rendering": "text",
                     "concept": "7bec5791-6cdc-4fe4-bfbb-89cbf3ab03b4"
                   },
                   "hide": {
-                    "hideWhenExpression": "isEmpty(indexFamilyMemberOnART) || indexFamilyMemberOnART !== '1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"
-                  },
-                  "validators": []
+                    "hideWhenExpression": "indexFamilyMemberOnART !== '1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"
+                  }
                 }
               ],
               "validators": []
@@ -723,7 +759,7 @@
             {
               "label": "If Yes, ARVs Received in",
               "type": "obs",
-              "required": true,
+              "required": false,
               "id": "arvReceivedYesMale",
               "questionOptions": {
                 "rendering": "select",
@@ -748,7 +784,7 @@
             {
               "label": "If Yes, ARVs Received in",
               "type": "obs",
-              "required": true,
+              "required": false,
               "id": "arvReceivedYesFemaleChild",
               "questionOptions": {
                 "rendering": "select",
@@ -773,7 +809,7 @@
             {
               "label": "If Yes, ARVs Received in",
               "type": "obs",
-              "required": true,
+              "required": false,
               "id": "arvReceivedYes",
               "questionOptions": {
                 "rendering": "select",
@@ -802,7 +838,7 @@
             {
               "label": "Place",
               "type": "obs",
-              "required": true,
+              "required": false,
               "id": "placeARVRecieved",
               "questionOptions": {
                 "rendering": "select",
@@ -831,7 +867,7 @@
             {
               "label": "Other healthcare facility, Specify",
               "type": "obs",
-              "required": true,
+              "required": false,
               "id": "otherHealthCareFacility",
               "questionOptions": {
                 "rendering": "text",
@@ -847,7 +883,7 @@
             {
               "label": "Drugs and Duration, Start Date",
               "type": "obs",
-              "required": true,
+              "required": false,
               "id": "drugsAndDurationStartDate",
               "questionOptions": {
                 "rendering": "date",
@@ -863,7 +899,7 @@
             {
               "label": "Drugs and Duration, Stop Date",
               "type": "obs",
-              "required": true,
+              "required": false,
               "id": "drugsAndDurationStopDate",
               "questionOptions": {
                 "rendering": "date",
@@ -1321,11 +1357,11 @@
               },
               "type": "obs",
               "validators": []
-            }, 
+            },
             {
               "label": "Other ARV Regimen Specify",
               "id": "otherInitialRegimenSpecify",
-              "required": true,
+              "required": false,
               "questionOptions": {
                 "answers": [],
                 "concept": "b0afac64-54b5-412c-86d0-7cf5dc6afb35",
