@@ -12,7 +12,7 @@
           "isExpanded": "true",
           "questions": [
             {
-              "label": "Date",
+              "label": "Visit Date",
               "type": "encounterDatetime",
               "questionOptions": {
                 "rendering": "ui-select-extended"
@@ -24,22 +24,6 @@
                   "allowFutureDates": "false"
                 }
               ]
-            },
-            {
-              "label": "Provider",
-              "type": "encounterProvider",
-              "questionOptions": {
-                "rendering": "ui-select-extended"
-              },
-              "id": "encProvider "
-            },
-            {
-              "label": "Location",
-              "type": "encounterLocation",
-              "questionOptions": {
-                "rendering": "ui-select-extended"
-              },
-              "id": "encLocation"
             }
           ]
         },

@@ -12,7 +12,7 @@
 					"isExpanded": "true",
 					"questions": [
 						{
-							"label": "Date:",
+							"label": "Visit Date",
 							"type": "encounterDatetime",
 							"questionOptions": {
 								"rendering": "ui-select-extended"
@@ -24,22 +24,6 @@
 									"allowFutureDates": "false"
 								}
 							]
-						},
-						{
-							"label": "Provider:",
-							"type": "encounterProvider",
-							"questionOptions": {
-								"rendering": "ui-select-extended"
-							},
-							"id": "encProvider "
-						},
-						{
-							"label": "Location:",
-							"type": "encounterLocation",
-							"questionOptions": {
-								"rendering": "ui-select-extended"
-							},
-							"id": "encLocation"
 						}
 					]
 				}
@@ -49,7 +33,7 @@
 			"label": "Sample information",
 			"sections": [
 				{
-					"label": "Sample information",
+					"label": "",
 					"isExpanded": "true",
 					"questions": [
 						{
@@ -112,7 +96,7 @@
 			"label": "Treatment Information",
 			"sections": [
 				{
-					"label": "Treatment Information",
+					"label": "",
 					"isExpanded": "true",
 					"questions": [
 						{
@@ -398,7 +382,7 @@
 			"label": "Requesting Clinician",
 			"sections": [
 				{
-					"label": "Request Clinician",
+					"label": "",
 					"isExpanded": "true",
 					"questions": [
 						{
@@ -458,7 +442,7 @@
 			"label": "Viral Load (VL) Details",
 			"sections": [
 				{
-					"label": "Viral Load (VL) Details",
+					"label": "",
 					"isExpanded": "true",
 					"questions": [
 						{
@@ -550,7 +534,13 @@
 								"conceptMappings": [],
 								"answers": []
 							},
-							"validators": []
+							"validators": [
+								{
+									"type": "js_expression",
+									"failsWhenExpression": "new Date(dateResultDispatched) < new Date(dateSampleRecievedLab)",
+									"message": "Date Dispatched can't be before the date sample received"
+								}
+							]
 						},
 						{
 							"label": "Rejection",
