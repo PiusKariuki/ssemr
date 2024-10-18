@@ -13,36 +13,18 @@
 					"isExpanded": "true",
 					"questions": [
 						{
-							"label": "Date",
-							"type": "obs",
-							"required": false,
-							"id": "date",
-							"questionOptions": {
-								"rendering": "date",
-								"concept": "668cdec8-bc73-457d-9026-4c8946816611",
-								"conceptMappings": [],
-								"answers": []
-							},
-							"validators": []
-						},
-						{
-							"label": "Provider:",
-							"type": "obs",
-							"questionOptions": {
-								"rendering": "text",
-								"concept": "7f77c914-aff6-4378-ad07-755ccf99353a",
-								"conceptMappings": [],
-								"answers": []
-							},
-							"id": "encProvider"
-						},
-						{
-							"label": "Health Facility name:",
-							"type": "encounterLocation",
+							"label": "Visit Date",
+							"type": "encounterDatetime",
 							"questionOptions": {
 								"rendering": "ui-select-extended"
 							},
-							"id": "encLocation"
+							"id": "encDate",
+							"validators": [
+								{
+									"type": "date",
+									"allowFutureDates": "false"
+								}
+							]
 						},
 						{
 							"label": "Date of Enrollment",
@@ -65,7 +47,7 @@
 			"label": "Patient identification",
 			"sections": [
 				{
-					"label": "Patient identification",
+					"label": "",
 					"isExpanded": "true",
 					"questions": [
 						{
@@ -153,7 +135,7 @@
 			"label": "Past Medical History",
 			"sections": [
 				{
-					"label": "Past Medical History",
+					"label": "",
 					"isExpanded": "true",
 					"questions": [
 						{
@@ -374,7 +356,7 @@
 			"label": "Current Symptoms Screen",
 			"sections": [
 				{
-					"label": "Current Symptoms Screen",
+					"label": "",
 					"isExpanded": "true",
 					"questions": [
 						{
@@ -726,11 +708,13 @@
 								"conceptMappings": [],
 								"answers": []
 							},
-							"alert": {
-								"alertWhenExpression": "myValue && (myValue >= 37.5 || myValue < 35)",
-								"message": "Temperature is out of range (Normal range 35-37)"
-							},
-							"validators": [],
+							"validators": [
+								{
+									"type": "js_expression",
+									"failsWhenExpression": "temperature < 32 || temperature > 40",
+									"message": "Temperature should not be less than 32 or more than 40"
+								}
+							],
 							"hide": {
 								"hideWhenExpression": "generalAppearance === '6cfc61ed-08ec-45cf-8317-325958dfdb9a'"
 							}
@@ -1942,7 +1926,7 @@
 			"label": "WHO Clinical Staging",
 			"sections": [
 				{
-					"label": "WHO Clinical Staging",
+					"label": "",
 					"isExpanded": "true",
 					"questions": [
 						{
