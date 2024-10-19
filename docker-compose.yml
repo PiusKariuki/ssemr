@@ -69,11 +69,26 @@ services:
     restart: unless-stopped
     environment:
       SUPERSET_ENV: production
-      SUPERSET_PORT: 8088
-      SUPERSET_DATABASE_URL: mysql://openmrs:openmrs@db:3306/openmrs
+      SUPERSET_LOAD_EXAMPLES: "no"
+      SUPERSET_ADMIN_USERNAME: ${SUPERSET_ADMIN_USERNAME}
+      SUPERSET_ADMIN_FIRSTNAME: ${SUPERSET_ADMIN_FIRSTNAME}
+      SUPERSET_ADMIN_LASTNAME: ${SUPERSET_ADMIN_LASTNAME}
+      SUPERSET_ADMIN_EMAIL: ${SUPERSET_ADMIN_EMAIL}
+      SUPERSET_ADMIN_PASSWORD: ${SUPERSET_ADMIN_PASSWORD}
       SUPERSET_SECRET_KEY: yX8bSUUIcnOjyp5px8MPSmmtqEll9+ZqqUL0m27p7VvoHIxL+1xw0whI
-      SUPERSET_USER: admin
-      SUPERSET_PASSWORD: admin
+    entrypoint:
+      - /bin/bash
+      - -c
+      - |
+        superset fab create-admin \
+          --username ${SUPERSET_ADMIN_USERNAME} \
+          --firstname ${SUPERSET_ADMIN_FIRSTNAME} \
+          --lastname ${SUPERSET_ADMIN_LASTNAME} \
+          --email ${SUPERSET_ADMIN_EMAIL} \
+          --password ${SUPERSET_ADMIN_PASSWORD} &&
+        superset db upgrade &&
+        superset init &&
+        superset run -p 8088 --with-threads --reload --debugger
     ports:
       - "8088:8088"
     depends_on:
