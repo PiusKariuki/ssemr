@@ -106,7 +106,7 @@
                 "concept": "5089AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                 "rendering": "numeric",
                 "calculate": {
-                  "calculateExpression": "resolve(api.getLatestObs('5089AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', '0e9f540d-92cb-43c9-a95c-9407f5bf3f2a')).valueNumeric"
+                  "calculateExpression": "api.getLatestObs(patient.id, '5089AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', '0e9f540d-92cb-43c9-a95c-9407f5bf3f2a').then(obs => obs.valueNumeric)"
                 }
               },
               "type": "obs",
@@ -122,7 +122,7 @@
                 "concept": "5090AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                 "rendering": "numeric",
                 "calculate": {
-                  "calculateExpression": "resolve(api.getLatestObs('5090AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', '0e9f540d-92cb-43c9-a95c-9407f5bf3f2a')).valueNumeric"
+                  "calculateExpression": "api.getLatestObs(patient.id, '5090AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', '0e9f540d-92cb-43c9-a95c-9407f5bf3f2a').then(obs => obs.valueNumeric)"
                 }
               },
               "type": "obs",
@@ -1244,7 +1244,7 @@
                   }
                 ],
                 "calculate": {
-                  "calculateExpression": "resolve(api.getLatestObs(patient.id, 'e38e6ce2-92d9-4382-927b-5555ff9fa850', '0e9f540d-92cb-43c9-a95c-9407f5bf3f2a'))?.valueCodeableConcept?.coding[0]?.code"
+                  "calculateExpression": "api.getLatestObs(patient.id, 'e38e6ce2-92d9-4382-927b-5555ff9fa850', '0e9f540d-92cb-43c9-a95c-9407f5bf3f2a').then(obs => obs.valueCodeableConcept?.coding[0]?.code)"
                 }
               },
               "type": "obs",
@@ -2203,7 +2203,10 @@
                     "label": "Other Regimen",
                     "concept": "d75c973c-06d4-43d2-a57d-6340fc8c0100"
                   }
-                ]
+                ],
+                "calculate": {
+                  "calculateExpression": "api.getLatestObs(patient.id, '23322fd6-3dbb-410e-8bee-6210dfcd5f71', '0e9f540d-92cb-43c9-a95c-9407f5bf3f2a').then(obs => obs.valueCodeableConcept?.coding[0]?.code)"
+                }
               }
             },
             {
@@ -2535,6 +2538,26 @@
               }
             },
             {
+              "label": "ART Substition Regimen for Firstline",
+              "type": "obs",
+              "required": false,
+              "id": "firstLineSubstitution",
+              "questionOptions": {
+                "rendering": "radio",
+                "concept": "00757959-3ccf-4f86-b3e1-0a58080e5696",
+                "answers": [
+                  {
+                    "concept": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                    "label": "Yes"
+                  },
+                  {
+                    "concept": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                    "label": "No"
+                  }
+                ]
+              }
+            },
+            {
               "label": "ART Substitution & Switch",
               "type": "obsGroup",
               "required": false,
@@ -2547,7 +2570,7 @@
                 {
                   "label": "Substitution Regimen For Adults(First Line)",
                   "id": "substArtAdultRegimen",
-                  "required": true,
+                  "required": false,
                   "questionOptions": {
                     "concept": "23322fd6-3dbb-410e-8bee-6210dfcd5f71",
                     "rendering": "select",
@@ -2646,7 +2669,7 @@
                   "type": "obs",
                   "validators": [],
                   "hide": {
-                    "hideWhenExpression": "age < 15"
+                    "hideWhenExpression": "age < 15 || firstLineSubstitution !== '1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"
                   }
                 },
                 {
@@ -2766,7 +2789,7 @@
                   "type": "obs",
                   "validators": [],
                   "hide": {
-                    "hideWhenExpression": "age >= 15"
+                    "hideWhenExpression": "age >= 15 || firstLineSubstitution !== '1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"
                   }
                 },
                 {
@@ -2799,7 +2822,10 @@
                       "type": "date",
                       "allowFutureDates": "false"
                     }
-                  ]
+                  ],
+                  "hide": {
+                    "hideWhenExpression": "firstLineSubstitution !== '1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"
+                  }
                 },
                 {
                   "label": "Reason For Regimen Change(First Line)",
@@ -2837,7 +2863,10 @@
                     ]
                   },
                   "type": "obs",
-                  "validators": []
+                  "validators": [],
+                  "hide": {
+                    "hideWhenExpression": "firstLineSubstitution !== '1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"
+                  }
                 },
                 {
                   "label": "Other Reason For First Line Regimen Change Specify",
@@ -2856,6 +2885,26 @@
                   "validators": []
                 }
               ]
+            },
+            {
+              "label": "Switch to Second Line",
+              "type": "obs",
+              "required": false,
+              "id": "secondSwitchLine",
+              "questionOptions": {
+                "rendering": "radio",
+                "concept": "a27d3702-8abc-48c0-a275-4981fe0d24ec",
+                "answers": [
+                  {
+                    "concept": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                    "label": "Yes"
+                  },
+                  {
+                    "concept": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                    "label": "No"
+                  }
+                ]
+              }
             },
             {
               "label": "Switch to 2nd Line",
@@ -2969,7 +3018,7 @@
                   "type": "obs",
                   "validators": [],
                   "hide": {
-                    "hideWhenExpression": "age < 15"
+                    "hideWhenExpression": "age < 15 || secondSwitchLine !== '1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"
                   }
                 },
                 {
@@ -3089,7 +3138,7 @@
                   "type": "obs",
                   "validators": [],
                   "hide": {
-                    "hideWhenExpression": "age >= 15"
+                    "hideWhenExpression": "age >= 15 || secondSwitchLine !== '1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"
                   }
                 },
                 {
@@ -3122,7 +3171,10 @@
                       "type": "date",
                       "allowFutureDates": "false"
                     }
-                  ]
+                  ],
+                  "hide": {
+                    "hideWhenExpression": "secondSwitchLine !== '1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"
+                  }
                 },
                 {
                   "label": "Reason For Regimen Switch(2nd Line)",
@@ -3160,7 +3212,10 @@
                     ]
                   },
                   "type": "obs",
-                  "validators": []
+                  "validators": [],
+                  "hide": {
+                    "hideWhenExpression": "secondSwitchLine !== '1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"
+                  }
                 },
                 {
                   "label": "Other Reason For Second Line Regimen Change Specify",
