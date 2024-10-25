@@ -65,3 +65,4 @@ services:
 volumes:
   openmrs-data: ~
   db-data: ~
+  
