@@ -3,7 +3,6 @@
 	"description": "High viral load form",
 	"version": "1.0.0",
 	"published": true,
-	"uuid": "",
 	"retired": false,
 	"encounter": "High Viral Load",
 	"pages": [
@@ -895,19 +894,14 @@
 								"rendering": "number",
 								"concept": "5ef9ac25-5db3-4e02-904b-3dce31dc0b06",
 								"min": 0,
+								"max": 100,
 								"conceptMappings": [],
 								"answers": [],
 								"calculate": {
 									"calculateExpression": "Number(secondEacPillIntake) ?  Math.floor((Number(secondEacPillIntake) / (pillIntake)) * 100) : 0"
 								}
 							},
-							"validators": [
-								{
-									"type": "js_expression",
-									"failsWhenExpression": "(function() { var intake = Number(secondEacPillIntake); var percentage = (intake / pillIntake) * 100;  return  !isNaN(intake) && (percentage < 0 || percentage > 100); })()",
-									"message": "Pill percentage must be between 0 and 100."
-								}
-							]
+							"validators": []
 						}
 					]
 				},
@@ -1211,19 +1205,15 @@
 								"rendering": "number",
 								"concept": "46c39500-d2d9-447a-a159-707ca3d61519",
 								"min": 0,
+								"max": 100,
 								"conceptMappings": [],
 								"answers": [],
+								"disallowDecimals": true,
 								"calculate": {
 									"calculateExpression": "Number(thirdEacPillIntake) ? Math.floor((Number(thirdEacPillIntake) / (pillIntake)) * 100) : 0"
 								}
 							},
-							"validators": [
-								{
-									"type": "js_expression",
-									"failsWhenExpression": "(function() { var intake = Number(thirdEacPillIntake); var percentage = (intake / pillIntake) * 100;  return  !isNaN(intake) && (percentage < 0 || percentage > 100); })()",
-									"message": "Pill percentage must be between 0 and 100."
-								}
-							]
+							"validators": []
 						}
 					]
 				}
@@ -1512,5 +1502,6 @@
 	],
 	"processor": "EncounterFormProcessor",
 	"referencedForms": [],
-	"encounterType": "f7f1c854-69e5-11ee-8c99-0242ac120002"
+	"encounterType": "f7f1c854-69e5-11ee-8c99-0242ac120002",
+	"uuid": "xxxxx"
 }

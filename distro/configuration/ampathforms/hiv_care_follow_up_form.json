@@ -60,27 +60,6 @@
               }
             },
             {
-              "label": "At Start of ART Date",
-              "id": "mileStonesDate",
-              "required": true,
-              "historicalExpression": "HD.getObject('prevEnc')?.getValue('73779d67-7e8f-46fe-b723-8879838da5f8') || ''",
-              "questionOptions": {
-                "answers": [],
-                "concept": "73779d67-7e8f-46fe-b723-8879838da5f8",
-                "calculate": {
-                  "calculateExpression": "api.getLatestObs(patient.id, '73779d67-7e8f-46fe-b723-8879838da5f8', '0e9f540d-92cb-43c9-a95c-9407f5bf3f2a').then(obs => obs.valueString)"
-                },
-                "rendering": "date"
-              },
-              "type": "obs",
-              "validators": [
-                {
-                  "type": "date",
-                  "allowFutureDates": "false"
-                }
-              ]
-            },
-            {
               "label": "Duration in months since first starting ART",
               "required": true,
               "type": "obs",
@@ -88,11 +67,7 @@
               "questionOptions": {
                 "rendering": "numeric",
                 "concept": "a8dd544d-fe87-4ff1-9911-6acdc6847d21",
-                "min": 0,
-                "calculate": {
-                  "calculateExpression": "((new Date(dateScheduled).getFullYear() - new Date(mileStonesDate).getFullYear()) * 12) + (new Date(dateScheduled).getMonth() - new Date(mileStonesDate).getMonth())"
-                },
-                "isSimpleValue": true
+                "min": 0
               },
               "validators": [
                 {
@@ -103,20 +78,6 @@
               ]
             },
             {
-              "label": "Date of Initiation of Current Regimen",
-              "type": "obs",
-              "required": false,
-              "id": "dateInitiateReg",
-              "historicalExpression": "HD.getObject('prevEnc')?.getValue('30f1f347-d72c-4920-9962-6d55d138e8e5') || ''",
-              "questionOptions": {
-                "rendering": "date",
-                "concept": "30f1f347-d72c-4920-9962-6d55d138e8e5",
-                "conceptMappings": [],
-                "answers": []
-              },
-              "validators": []
-            },
-            {
               "label": "Duration in months since starting current regimen",
               "required": true,
               "type": "obs",
@@ -124,11 +85,7 @@
               "questionOptions": {
                 "rendering": "numeric",
                 "concept": "e0e2acbe-f88b-4710-adbd-08637d80ea97",
-                "min": 0,
-                "calculate": {
-                  "calculateExpression": "((new Date(dateScheduled).getFullYear() - new Date(dateInitiateReg).getFullYear()) * 12) + (new Date(dateScheduled).getMonth() - new Date(dateInitiateReg).getMonth())"
-                },
-                "isSimpleValue": true
+                "min": 0
               },
               "validators": [
                 {
@@ -685,15 +642,11 @@
                   }
                 ],
                 "calculate": {
-                  "calculateExpression": "isEmpty(coughDuration) && isEmpty(feverIsh) && isEmpty(WeightLossGain) && isEmpty(nightSweats) && isEmpty(contacTbCase) ? '283858ee-c0b7-4691-ad6e-0785e9b737f4' : coughDuration === '1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' || feverIsh === '1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' || WeightLossGain === '1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' || nightSweats === '1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' || contacTbCase === '1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' ? '4897c2f3-9d36-4d6c-bf5a-780db6b4ab12' : '33475272-c82b-4476-b6a2-1908d532af8f'"
+                  "calculateExpression": "isEmpty(coughDuration) && isEmpty(feverIsh) && isEmpty(WeightLossGain) && isEmpty(nightSweats) && isEmpty(contacTbCase) ? '283858ee-c0b7-4691-ad6e-0785e9b737f4' : coughDuration === '1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && feverIsh === '1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && WeightLossGain === '1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && nightSweats === '1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' ? '33475272-c82b-4476-b6a2-1908d532af8f' : coughDuration !== '1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' || feverIsh !== '1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' || WeightLossGain !== '1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' || nightSweats !== '1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' ? '4897c2f3-9d36-4d6c-bf5a-780db6b4ab12' : null "
                 }
               },
               "hide": {
                 "hideWhenExpression": "currentlyOnTBTreatment !== '1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"
-              },
-              "alert": {
-                "alertWhenExpression": "TBStatus === '4897c2f3-9d36-4d6c-bf5a-780db6b4ab12' && coughDuration === '1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' || feverIsh === '1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' || WeightLossGain === '1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' || nightSweats === '1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' || contacTbCase === '1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'",
-                "message": "can’t be on presumptive TB without signs"
               }
             },
             {
@@ -724,7 +677,7 @@
                 ]
               },
               "hide": {
-                "hideWhenExpression": "TBStatus !== '4897c2f3-9d36-4d6c-bf5a-780db6b4ab12'"
+                "hideWhenExpression": "coughDuration !== '1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && feverIsh !== '1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && WeightLossGain !== '1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && nightSweats !== '1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"
               }
             },
             {
@@ -749,7 +702,7 @@
               },
               "validators": [],
               "hide": {
-                "hideWhenExpression": "TBStatus !== '33475272-c82b-4476-b6a2-1908d532af8f' && TBStatus !== '8942c092-9ea4-4128-bade-060cd1a97c34'"
+                "hideWhenExpression": "coughDuration !== '1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && feverIsh !== '1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && WeightLossGain !== '1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && nightSweats !== '1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"
               }
             },
             {
@@ -918,7 +871,7 @@
               "id": "inhNumber",
               "questionOptions": {
                 "rendering": "select",
-                "concept": "9fa616bc-e749-434c-b43a-438fefc5b104",
+                "concept": "41cde1fd-31b7-4e76-821a-c6b85b73ffe3",
                 "answers": [
                   {
                     "label": "180",
@@ -1326,7 +1279,6 @@
               "type": "obs",
               "required": false,
               "id": "adherenceCTX",
-              "historicalExpression": "HD.getObject('prevEnc')?.getValue('e360501a-123a-4efb-93ef-4dc19d031921') || ''",
               "questionOptions": {
                 "rendering": "radio",
                 "concept": "e360501a-123a-4efb-93ef-4dc19d031921",
@@ -1529,7 +1481,6 @@
               "label": "Number of Days Dispensed",
               "required": false,
               "id": "artRegimenNoOfDaysDispensedCTX",
-              "historicalExpression": "HD.getObject('prevEnc')?.getValue('417625de-7d5e-45e4-bec7-60d72c94e657') || ''",
               "questionOptions": {
                 "rendering": "select",
                 "concept": "417625de-7d5e-45e4-bec7-60d72c94e657",
@@ -1678,7 +1629,6 @@
               "type": "obs",
               "required": false,
               "id": "dateStartedDapsone",
-              "historicalExpression": "HD.getObject('prevEnc')?.getValue('d8a05f0f-3a39-4338-b40e-45567d5fd406') || ''",
               "questionOptions": {
                 "rendering": "date",
                 "concept": "d8a05f0f-3a39-4338-b40e-45567d5fd406"
@@ -1698,7 +1648,6 @@
               "type": "obs",
               "required": false,
               "id": "adherenceDapsone",
-              "historicalExpression": "HD.getObject('prevEnc')?.getValue('6d125568-df84-430b-92c7-21402e80ce14') || ''",
               "questionOptions": {
                 "rendering": "radio",
                 "concept": "6d125568-df84-430b-92c7-21402e80ce14",
@@ -1900,7 +1849,6 @@
               "label": "Number of Days Dispensed",
               "required": false,
               "id": "artRegimenNoOfDaysDispensedDapsone",
-              "historicalExpression": "HD.getObject('prevEnc')?.getValue('4ab28128-7ef3-452d-86d5-73561761b08a') || ''",
               "questionOptions": {
                 "rendering": "select",
                 "concept": "4ab28128-7ef3-452d-86d5-73561761b08a",
@@ -2254,7 +2202,7 @@
               "id": "otherRegimenSpecify",
               "questionOptions": {
                 "rendering": "text",
-                "concept": "2734f9fc-1bc5-473b-a58f-e2e6e79223d8"
+                "concept": "b0afac64-54b5-412c-86d0-7cf5dc6afb35"
               },
               "validators": [],
               "hide": {
@@ -2717,7 +2665,7 @@
                   "required": false,
                   "questionOptions": {
                     "answers": [],
-                    "concept": "dcc697c1-d3bc-407a-bb2f-bad8acaaf8bd",
+                    "concept": "b0afac64-54b5-412c-86d0-7cf5dc6afb35",
                     "rendering": "text"
                   },
                   "type": "obs",
@@ -2837,7 +2785,7 @@
                   "required": false,
                   "questionOptions": {
                     "answers": [],
-                    "concept": "f43b9529-3b66-4d53-8599-8c0390205b98",
+                    "concept": "b0afac64-54b5-412c-86d0-7cf5dc6afb35",
                     "rendering": "text"
                   },
                   "type": "obs",
@@ -3066,7 +3014,7 @@
                   "required": false,
                   "questionOptions": {
                     "answers": [],
-                    "concept": "9387dbd8-897d-4097-8d4d-084c0bd241c3",
+                    "concept": "b0afac64-54b5-412c-86d0-7cf5dc6afb35",
                     "rendering": "text"
                   },
                   "type": "obs",
@@ -3186,7 +3134,7 @@
                   "required": false,
                   "questionOptions": {
                     "answers": [],
-                    "concept": "06470f0d-bc1a-4375-80b6-6663b862f078",
+                    "concept": "b0afac64-54b5-412c-86d0-7cf5dc6afb35",
                     "rendering": "text"
                   },
                   "type": "obs",
@@ -3690,5 +3638,5 @@
   "referencedForms": [],
   "description": "HIV Care Follow Up",
   "encounterType": "e8481555-9dd1-4bb5-ba8c-cb721dafb166",
-  "uuid": "6ecd2735-3030-43e1-b466-5d3958af7109"
+  "uuid": "xxxxx"
 }
